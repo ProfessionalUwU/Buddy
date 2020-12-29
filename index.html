@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buddy</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="dark.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="main">
+        <!--header-->
+        <div class="container">
+            <div class="page-header hd">
+                <h1>
+                    Buddy
+                </h1>
+            </div>
+        </div>
+        <!--buttons-->
+        <div class="mids">
+            <div class="container but">
+                <!--das erste äußere Popup-->
+                <div class="modal fade" id="seeker" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content modal-lg">
+                            <div class="modal-header mdl">
+                                <h4 class="modal-title mdt">Wie du helfen kannst</h4>
+                                </div>
+                            <div class="modal-body mdl">
+                                <!--form-->
+                                <div id="error"></div>
+                                <form class="form" action="user_input.php" method="post">
+                                    <div class="form-group">
+                                        <label for="bei">Bei was brauchst du Hilfe?</label><br>
+                                        <select name="bei" id="bei">
+                                            <option value="einkaufen">Einkaufen</option>
+                                            <option value="haushaltshilfe">Haushaltshilfe</option>
+                                            <option value="medizinisch">Medizinisch</option>
+                                        </select>
+                                        <br>
+                                        <label for="umkreis">Im Umkreis von:</label><br>
+                                        <select name="umkreis" id="umkreis">
+                                            <option value="1km">1km</option>
+                                            <option value="5km">5km</option>
+                                            <option value="10km">10km</option>
+                                            <option value="20km">20km</option>
+                                            <option value="50km">50km</option>
+                                            <option value="100km">100km</option>
+                                            <option value="1000km">1000km</option>
+                                        </select>
+                                        <br>
+                                        <label for="datetime">Wann brauchst du die Hilfe?</label><br>
+                                        <input type="datetime-local" id="datetime" name="datetime">
+                                    </div>
+                                </form>
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#seekerhow">Weiter</button>
+                            </div>
+                            <div class="modal-footer mdl">
+                                <!--das eingebaute Popup-->
+                                <div class="modal fade" id="seekerhow" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header mdl">
+                                                <h4 class="modal-title mdt">Du brauchst Hilfe</h4>
+                                            </div>
+                                            <div class="modal-body mdl">
+                                                <!--form-->
+                                                <div id="error"></div>
+                                                <form class="form" action="user_input.php" method="post">
+                                                    <div class="form-group">
+                                                        <p>Anrede:</p>
+                                                        <div>	
+                                                            <input type="radio" id="herr" name="anrede" value="herr">
+                                                            <label for="herr">Herr</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="frau" name="anrede" value="frau">
+                                                            <label for="frau">Frau</label><br>
+                                                        </div>
+                                                        <label for="vname">Vorname:</label><br>
+                                                        <input type="text" id="vn" name="vn" value="" required><br>
+                                                        <label for="nname">Nachname:</label><br>
+                                                        <input type="text" id="nn" name="nn" value="" required><br>
+                                                        <label for="strasse">Strasse:</label><br>
+                                                        <input type="text" id="str" name="str" value="" required><br>
+                                                        <label for="plz">PLZ:</label><br>
+                                                        <input type="text" id="plz" name="plz" value="" required><br>
+                                                        <label for="teln">Telefonnummer:</label><br>
+                                                        <input type="text" id="tel" name="tel" minlength="11" maxlength="14" value=""><br>
+                                                        <label for="email">E-mail:</label><br>
+                                                        <input type="email" class="form-control" id="email" placeholder="E-mail eingeben" name="email" value="">
+                                                    </div>
+                                                        <button type="submit" class="btn btn-outline-success">Submit</button>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer mdl">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Schliessen</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Schliessen</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--der Buttonfür den Popup-Trigger-->
+                <button type="button" class="btn btn-outline-light btn-lg helpn"  data-toggle="modal" data-target="#seeker">
+                    Ich brauche Hilfe
+                </button>
+                <!--das zweite äußere Popup-->
+                <div class="modal fade" id="helper" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content modal-lg">
+                            <div class="modal-header mdl">
+                                <h4 class="modal-title mdt">Wie du helfen kannst</h4>
+                            </div>
+                            <div class="modal-body mdl">
+                                <!--form-->
+                                <div id="error"></div>
+                                <form class="form" action="user_input.php" method="post">
+                                    <div class="form-group">
+                                        <label for="bei">Wie willst du helfen?</label><br>
+                                        <select name="bei" id="bei">
+                                            <option value="einkaufen">Einkaufen</option>
+                                            <option value="haushalthilfe">Haushalthilfe</option>
+                                            <option value="medizinisch">Medizinisch</option>
+                                        </select>
+                                        <br>
+                                        <label for="umkreis">Im Umkreis von:</label><br>
+                                        <select name="umkreis" id="umkreis">
+                                            <option value="1km">1km</option>
+                                            <option value="5km">5km</option>
+                                            <option value="10km">10km</option>
+                                            <option value="20km">20km</option>
+                                            <option value="50km">50km</option>
+                                            <option value="100km">100km</option>
+                                            <option value="1000km">1000km</option>
+                                        </select>
+                                        <br>
+                                        <label for="datetime">Wann kannst du die Hilfe anbieten?</label><br>
+                                        <input type="datetime-local" id="datetime" name="datetime">
+                                    </div>
+                                </form>
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#helprhow">Weiter</button> </div>
+                            <div class="modal-footer mdl">
+                                <!--das eingebaute Popup-->
+                                <div class="modal fade" id="helprhow" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header mdl">
+                                                <h4 class="modal-title mdt">Du möchtest helfen</h4>
+                                            </div>
+                                            <div class="modal-body mdl">
+                                                <!--form-->
+                                                <form action="user_input.php" method="post">
+                                                    <div class="form-group">
+                                                        <p>Anrede:</p>
+                                                        <input type="radio" id="herr" name="anrede" value="herr">
+                                                        <label for="herr">Herr</label>
+                                                        <input type="radio" id="frau" name="anrede" value="frau">
+                                                        <label for="frau">Frau</label><br>
+                                                        <label for="vname">Vorname:</label><br>
+                                                        <input type="text" id="vn" name="vn" value="" required><br>
+                                                        <label for="nname">Nachname:</label><br>
+                                                        <input type="text" id="nn" name="nn" value="" required><br>
+                                                        <label for="strasse">Strasse:</label><br>
+                                                        <input type="text" id="str" name="str" value="" required><br>
+                                                        <label for="plz">PLZ:</label><br>
+                                                        <input type="text" id="plz" name="plz" value="" required><br>
+                                                        <label for="teln">Telefonnummer:</label><br>
+                                                        <input type="text" id="tel" name="tel" minlength="11" maxlength="14" value=""><br>
+                                                        <label for="email">E-mail:</label><br>
+                                                        <input type="email" class="form-control" id="email" placeholder="E-mail eingeben" name="email" value="">
+                                                    </div>
+                                                        <button type="submit" class="btn btn-outline-success">Submit</button>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer mdl">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Schliessen</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Der Button zum Schließen des Popups-->
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Schliessen</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--der Buttonfür den Popup-Trigger-->
+                <button type="button" class="btn btn-outline-light btn-lg helpr" data-toggle="modal" data-target="#helper">
+                    Ich möchte helfen
+                </button>
+            </div>
+        </div>
+        <!--beschreibung textbereich-->
+        <div class="jumbotron foot">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+    </div>
+    <!--navigation bar-->
+    <nav class="navbar navbar-expand-md fixed-bottom">
+        <a href="index.html" class="navbar-brand nlk">Buddy</a>
+        <button type="button" class="navbar-toggler navbar-dark" data-toggle="collapse" data-target="#navbarMenu">
+            <span class="navbar-toggler-icon nhb"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <div class="navbar-nav">
+                <a href="index.html" class="nav-item nav-link active nlk">Home</a>
+                <a href="team.html" class="nav-item nav-link nlk">Team</a>
+                <a href="impressum.html" class="nav-item nav-link nlk">Impressum</a>
+            </div>
+            <a href="www.github.com" class="btn navbar-btn nbt">Source Code</a>
+            <div class="navbar-nav ml-auto">
+                <a href="#" class="nav-item nav-link nlk">Login</a>
+            </div>
+        </div>
+    </nav>
+</body>
+</html>
