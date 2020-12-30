@@ -1,1 +1,5 @@
 # Buddy
+
+## Ziel:
+
+### Doku:
