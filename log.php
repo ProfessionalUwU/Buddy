@@ -17,7 +17,7 @@
 // Include config file
 require "config.php";
 
-$vn = $nn = $str = $plz = $email = $tel = $passwort = "";
+$vn = $nn = $str = $plz = $email = $tel = $passwort = ""; //cleared variablen
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
@@ -129,7 +129,7 @@ if (password_verify($passwort, $hashedPasswort)) {
               <label>
                 PLZ<span class="req">*</span>
               </label>
-              <input type="email"required autocomplete="off" value="<?php echo $plz; ?>"/>
+              <input type="number"required autocomplete="off" value="<?php echo $plz; ?>"/>
             </div>
   
             <div class="label-field">
@@ -143,7 +143,7 @@ if (password_verify($passwort, $hashedPasswort)) {
               <label>
                 Telefonnummer
               </label>
-              <input type="email"required autocomplete="off" value="<?php echo $tel; ?>"/>
+              <input type="tel"required autocomplete="off" value="<?php echo $tel; ?>"/>
             </div>
             
             <div class="label-field">
