@@ -1,9 +1,9 @@
 <?php
-/* Wird defenieren die Variablen um sie einfacher ändern zu können */
+/* Wird defenieren die Variablen um sie einfacher änder zu können */
 define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'u188345db1');
-define('DB_PASSWORD', 'BuddyIsTheBest4002!');
-define('DB_NAME', 'u188345db1');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_NAME', 'buddy');
  
 /* Verbindung mit der Datenbank aufbauen */
 try{
