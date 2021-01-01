@@ -72,19 +72,14 @@ a:hover {
 
 h2 {
 	text-align: center;
-	color: #ffffff;
+	color: #050505;
 	font-weight: 300;
 	margin: 0 0 40px;
 }
 label {
 	position: absolute;
-	-webkit-transform: translateY(6px);
-	transform: translateY(6px);
 	left: 13px;
 	color: rgba(17, 17, 17, 0.5);
-	transition: all 0.25s ease;
-	-webkit-backface-visibility: hidden;
-	pointer-events: none;
 	font-size: 22px;
 }
 label .req {
@@ -92,8 +87,8 @@ label .req {
 	color: #e75353;
 }
 label.active {
-	-webkit-transform: translateY(50px);
-	transform: translateY(50px);
+	-webkit-transform: translateY(-25px);
+	transform: translateY(-25px);
 	left: 2px;
 	font-size: 14px;
 }
@@ -101,7 +96,7 @@ label.active .req {
 	opacity: 0;
 }
 label.highlight {
-	color: #ffffff;
+	color: #202020;
 }
 input,
 textarea {
@@ -112,7 +107,7 @@ textarea {
 	background: none;
 	background-image: none;
 	border: 1px solid #a0b3b0;
-	color: #ffffff;
+	color: #000000;
 	border-radius: 0;
 	transition: border-color .25s ease, box-shadow .25s ease;
 }

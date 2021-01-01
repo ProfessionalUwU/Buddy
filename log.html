@@ -12,73 +12,6 @@
 </head>
 <body>
 
-<?php
-
-// Include config file
-require "config.php";
-
-$vn = $nn = $str = $plz = $email = $tel = $passwort = "";
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-$vn = $_POST["vn"];
-$nn = $_POST["nn"];
-$str = $_POST["str"];
-$plz = $_POST["plz"];
-$tel = $_POST["tel"];
-$email = $_POST["email"];
-$passwort = $_POST["passwort"];
-
-//hash passwort
-$hashedPasswort = password_hash($passwort, PASSWORD_DEFAULT);
-
-/*
-//passwort überprüfen, Für Anmeldung, True False
-if (password_verify($passwort, $hashedPasswort)) {
-    echo 'Passwort stimmt überein!';
-} else {
-    echo 'Nope.';
-}
-*/
-
-        $sql = "INSERT INTO User (vn, nn, str, plz, tel, email, passworthash) VALUES (:vn, :nn, :str, :plz, :tel, :email, :hashedPasswort)";
-        
-                if($stmt = $pdo->prepare($sql)){
-                    // Bindet die Variablen an das Statement
-                    $stmt->bindParam(":vn", $param_vn);
-                    $stmt->bindParam(":nn", $param_nn);
-                    $stmt->bindParam(":str", $param_str);
-                    $stmt->bindParam(":plz", $param_plz);
-                    $stmt->bindParam(":tel", $param_tel);
-                    $stmt->bindParam(":email", $param_email);
-                    $stmt->bindParam(":hashedPasswort", $param_hashedPasswort);
-                    
-                    // Parameter setzen
-                    $param_vn = $vn;
-                    $param_nn = $nn;
-                    $param_str = $str;
-                    $param_plz = $plz;
-                    $param_tel = $tel;
-                    $param_email = $email;
-                    $param_hashedPasswort = $hashedPasswort;
-
-                    if($stmt->execute()){
-                        // Es hat funktioniert
-                        header("location: index.html");
-                        exit();
-                    } else{
-                        // Nope
-                        echo "Es ist etwas schiefgelaufen. Bitte versuchen Sie es später wieder.";
-                    }
-
-                    unset($stmt);
-            }
-            
-            // Close connection
-            unset($pdo);
-        }
-?>
-
     <!--header-->
     <div class="impb">
       <div class="container">
@@ -100,21 +33,21 @@ if (password_verify($passwort, $hashedPasswort)) {
           <div id="signup">   
             <h2>Registrieren</h2>
             
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+            <form action="/" method="post">
             
             <div class="top-row">
               <div class="label-field">
                 <label>
                   Vorname<span class="req">*</span>
                 </label>
-                <input type="text" required autocomplete="off" value="<?php echo $vn; ?>"/>
+                <input type="text" required autocomplete="off" />
               </div>
           
               <div class="label-field">
                 <label>
                   Nachname<span class="req">*</span>
                 </label>
-                <input type="text"required autocomplete="off" value="<?php echo $nn; ?>"/>
+                <input type="text"required autocomplete="off"/>
               </div>
             </div>
 
@@ -122,46 +55,45 @@ if (password_verify($passwort, $hashedPasswort)) {
               <label>
                 Straße<span class="req">*</span>
               </label>
-              <input type="text"required autocomplete="off" value="<?php echo $str; ?>"/>
+              <input type="text"required autocomplete="off"/>
             </div>
 
             <div class="label-field">
               <label>
                 PLZ<span class="req">*</span>
               </label>
-              <input type="email"required autocomplete="off" value="<?php echo $plz; ?>"/>
+              <input type="number"required autocomplete="off"/>
             </div>
   
             <div class="label-field">
               <label>
                 Email Addresse<span class="req">*</span>
               </label>
-              <input type="email"required autocomplete="off" value="<?php echo $email; ?>"/>
+              <input type="email"required autocomplete="off"/>
             </div>
 
             <div class="label-field">
               <label>
                 Telefonnummer
               </label>
-              <input type="email"required autocomplete="off" value="<?php echo $tel; ?>"/>
+              <input type="number"required autocomplete="off"/>
             </div>
             
             <div class="label-field">
               <label>
                 Passwort<span class="req">*</span>
               </label>
-              <input id="passwort" type="password"required autocomplete="off" onkeyup='check();' value="<?php echo $passwort; ?>"/>
+              <input type="password"required autocomplete="off"/>
             </div>
-
+            
             <div class="label-field">
               <label>
                 Passwort wiederholen<span class="req">*</span>
               </label>
-              <input id="passwortverify" type="password"required autocomplete="off" onkeyup='check();'/>
-              <span id='message'></span><br><br>
+              <input type="password"required autocomplete="off"/>
             </div>
-            
-            <button type="submit" id="test" class="button button-block"/>Registrieren</button>
+
+            <button type="submit" class="button button-block"/>Registrieren</button>
             
             </form>
   
