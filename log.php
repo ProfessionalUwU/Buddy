@@ -8,79 +8,71 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>    
-    <link rel="stylesheet" href="log.css">
+    <link rel="stylesheet" href="reg_log.css">
 </head>
 <body>
 
 <?php
-
+// Initialize the session
+session_start();
+ 
+// Check if the user is already logged in, if yes then redirect him to welcome page
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+    header("location: welcome.php");
+    exit;
+}
+ 
 // Include config file
-require "config.php";
+require_once "config.php";
 
-$vn = $nn = $str = $plz = $email = $tel = $passwort = "";
+$email = $passwort = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-$vn = $_POST["vn"];
-$nn = $_POST["nn"];
-$str = $_POST["str"];
-$plz = $_POST["plz"];
-$tel = $_POST["tel"];
-$email = $_POST["email"];
-$passwort = $_POST["passwort"];
+    $sql = "SELECT userID, email, passworthash FROM user WHERE email = :email";
 
-//hash passwort
-$hashedPasswort = password_hash($passwort, PASSWORD_DEFAULT);
+    if($stmt = $pdo->prepare($sql)){
+        // Bindet die Variablen an das Statement
+        $stmt->bindParam(":email", $param_email);
 
-/*
-//passwort überprüfen, Für Anmeldung, True False
-if (password_verify($passwort, $hashedPasswort)) {
-    echo 'Passwort stimmt überein!';
-} else {
-    echo 'Nope.';
-}
-*/
+        // Parameter setzen
+        $param_email = $email;
 
-        $sql = "INSERT INTO User (vn, nn, str, plz, tel, email, passworthash) VALUES (:vn, :nn, :str, :plz, :tel, :email, :hashedPasswort)";
-        
-                if($stmt = $pdo->prepare($sql)){
-                    // Bindet die Variablen an das Statement
-                    $stmt->bindParam(":vn", $param_vn);
-                    $stmt->bindParam(":nn", $param_nn);
-                    $stmt->bindParam(":str", $param_str);
-                    $stmt->bindParam(":plz", $param_plz);
-                    $stmt->bindParam(":tel", $param_tel);
-                    $stmt->bindParam(":email", $param_email);
-                    $stmt->bindParam(":hashedPasswort", $param_hashedPasswort);
-                    
-                    // Parameter setzen
-                    $param_vn = $vn;
-                    $param_nn = $nn;
-                    $param_str = $str;
-                    $param_plz = $plz;
-                    $param_tel = $tel;
-                    $param_email = $email;
-                    $param_hashedPasswort = $hashedPasswort;
-
-                    if($stmt->execute()){
-                        // Es hat funktioniert
+        if($stmt->execute()){
+            // Checkt ob email exestiert, dann checkt es das Passwort
+            if($stmt->rowCount() == 1){
+                if($row = $stmt->fetch()){
+                    $userID = $row["userID"];
+                    $email = $row["email"];
+                    $passworthash = $row["passworthash"];
+                    if(password_verify($passwort, $passworthash)){
+                        // Wenn Passwort korekt dann neue session starten
+                        session_start();
+                        
+                        // Store data in session variables
+                        $_SESSION["loggedin"] = true;
+                        $_SESSION["userID"] = $userID;
+                        $_SESSION["email"] = $email;             
+                        
+                        // Redirect user to welcome page
                         header("location: index.html");
                         exit();
-                    } else{
-                        // Nope
-                        echo "Es ist etwas schiefgelaufen. Bitte versuchen Sie es später wieder.";
+                    } else {
+                        header("location: reg.php");
+                        exit();
                     }
-
-                    unset($stmt);
+                }
             }
-            
-            // Close connection
-            unset($pdo);
         }
+    unset($stmt);
+}    
+// Close connection
+unset($pdo);
+}
+
 ?>
 
-    <!--header-->
-    <div class="impb">
+<div class="impb">
       <div class="container">
           <div class="page-header hd">
               <h1>
@@ -97,98 +89,29 @@ if (password_verify($passwort, $hashedPasswort)) {
         </ul>
         
         <div class="tab-content">
-          <div id="signup">   
-            <h2>Registrieren</h2>
-            
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-            
-            <div class="top-row">
-              <div class="label-field">
-                <label>
-                  Vorname<span class="req">*</span>
-                </label>
-                <input type="text" required autocomplete="off" value="<?php echo $vn; ?>"/>
-              </div>
-          
-              <div class="label-field">
-                <label>
-                  Nachname<span class="req">*</span>
-                </label>
-                <input type="text"required autocomplete="off" value="<?php echo $nn; ?>"/>
-              </div>
-            </div>
-
-            <div class="label-field">
-              <label>
-                Straße<span class="req">*</span>
-              </label>
-              <input type="text"required autocomplete="off" value="<?php echo $str; ?>"/>
-            </div>
-
-            <div class="label-field">
-              <label>
-                PLZ<span class="req">*</span>
-              </label>
-              <input type="email"required autocomplete="off" value="<?php echo $plz; ?>"/>
-            </div>
-  
-            <div class="label-field">
-              <label>
-                Email Addresse<span class="req">*</span>
-              </label>
-              <input type="email"required autocomplete="off" value="<?php echo $email; ?>"/>
-            </div>
-
-            <div class="label-field">
-              <label>
-                Telefonnummer
-              </label>
-              <input type="email"required autocomplete="off" value="<?php echo $tel; ?>"/>
-            </div>
-            
-            <div class="label-field">
-              <label>
-                Passwort<span class="req">*</span>
-              </label>
-              <input id="passwort" type="password"required autocomplete="off" onkeyup='check();' value="<?php echo $passwort; ?>"/>
-            </div>
-
-            <div class="label-field">
-              <label>
-                Passwort wiederholen<span class="req">*</span>
-              </label>
-              <input id="passwortverify" type="password"required autocomplete="off" onkeyup='check();'/>
-              <span id='message'></span><br><br>
-            </div>
-            
-            <button type="submit" id="test" class="button button-block"/>Registrieren</button>
-            
-            </form>
-  
-          </div>
           
           <div id="login">   
             <h2>Einloggen!</h2>
             
-            <form action="/" method="post">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             
               <div class="label-field">
               <label>
                 Email Addresse<span class="req">*</span>
               </label>
-              <input type="email"required autocomplete="off"/>
+              <input type="email" id="email" name="email" value="<?php echo $email; ?>" required>
             </div>
             
             <div class="label-field">
               <label>
                 Passwort<span class="req">*</span>
               </label>
-              <input type="password"required autocomplete="off"/>
+              <input type="password" id="passwort" name="passwort" value="<?php echo $passwort; ?>" required><br>
             </div>
             
             <p class="forgot"><a href="#">Passwort vergessen?</a></p>
             
-            <button class="button button-block">Einloggen</button>
+            <button type="submit" class="button button-block">Einloggen</button>
             
             </form>
   
@@ -198,7 +121,7 @@ if (password_verify($passwort, $hashedPasswort)) {
   </div>
   
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-  <script  src="log.js"></script>
+  <script  src="reg_log.js"></script>
 
     <!--navbar-->
     <nav class="navbar navbar-expand-md fixed-bottom">
@@ -215,7 +138,7 @@ if (password_verify($passwort, $hashedPasswort)) {
             </div>
             <a href="www.github.com" class="btn navbar-btn nbt">Source Code</a>
             <div class="navbar-nav ml-auto">
-                <a href="#" class="nav-item nav-link nlk">Login</a>
+                <a href="reg.php" class="nav-item nav-link nlk">Registrieren/Login</a>
             </div>
         </div>
     </nav>

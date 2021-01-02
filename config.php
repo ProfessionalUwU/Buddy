@@ -3,7 +3,7 @@
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
-define('DB_NAME', 'buddy');
+define('DB_NAME', 'u188345db1');
  
 /* Verbindung mit der Datenbank aufbauen */
 try{
