@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impressum</title>
+    <title>Login</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -16,9 +16,10 @@
 // Initialize the session
 session_start();
  
+
 // Check if the user is already logged in, if yes then redirect him to welcome page
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-    header("location: welcome.php");
+    header("location: index.html");
     exit;
 }
  
@@ -70,6 +71,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 unset($pdo);
 }
 
+
+/*
+require_once "config.php";
+
+if(isset($_GET['login'])) {
+  $email = $_POST['email'];
+  $passwort = $_POST['passwort'];
+  
+  $statement = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+  $result = $statement->execute(array('email' => $email));
+  $user = $statement->fetch();
+      
+  //Überprüfung des Passworts
+  if ($user !== false && password_verify($passwort, $user['passwort'])) {
+      $_SESSION['userID'] = $user['userID'];
+      die('Login erfolgreich. Weiter zu <a href="index.html">internen Bereich</a>');
+  } else {
+      header("location: reg.php");
+      exit();
+  }
+*/
 ?>
 
 <div class="impb">
@@ -84,8 +106,8 @@ unset($pdo);
     <div class="form">
       
         <ul class="top-area">
-          <li class="tab active"><a href="#signup">Sign Up</a></li>
-          <li class="tab"><a href="#login">Log In</a></li>
+          <li class="tab"><a href="#signup">Sign Up</a></li>
+          <li class="tab active"><a href="#login">Log In</a></li>
         </ul>
         
         <div class="tab-content">
@@ -93,7 +115,7 @@ unset($pdo);
           <div id="login">   
             <h2>Einloggen!</h2>
             
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+            <form action="?login=1" method="POST"> <!-- <?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> -->
             
               <div class="label-field">
               <label>

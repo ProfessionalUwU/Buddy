@@ -13,6 +13,7 @@
 <body>
 
 <?php
+session_start();
 
 // Include config file
 require "config.php";
